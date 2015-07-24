@@ -31,7 +31,7 @@ for p in $INSTALLED_PACKAGES; do
 done
 
 # Switch to QI repository
-mkdir -p /usr/local/etc/pkg/repos
+mkdir -p -m 755 /usr/local/etc/pkg/repos
 touch /usr/local/etc/pkg/repos/local.conf
 cat <<EOT > /usr/local/etc/pkg/repos/local.conf
 FreeBSD: { enabled: no }
