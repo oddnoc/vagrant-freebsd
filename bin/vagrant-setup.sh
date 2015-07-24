@@ -36,7 +36,7 @@ touch /usr/local/etc/pkg/repos/local.conf
 cat <<EOT > /usr/local/etc/pkg/repos/local.conf
 FreeBSD: { enabled: no }
 local {
-        url: https://pkg.dev.quinn.com/packages/${ABI}-default,
+        url: https://pkg.dev.quinn.com/packages/\${ABI}-default,
         signature_type: "pubkey",
         mirror_type: "http",
         pubkey: "/usr/local/etc/ssl/certs/poudriere.cert",
