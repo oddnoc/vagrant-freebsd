@@ -4,7 +4,7 @@
 ################################################################################
 
 # Packages which are pre-installed
-INSTALLED_PACKAGES="ca_root_nss virtualbox-ose-additions bash sudo"
+INSTALLED_PACKAGES="virtualbox-ose-additions bash sudo"
 
 # Configuration files
 RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
