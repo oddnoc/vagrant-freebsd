@@ -4,18 +4,19 @@
 ################################################################################
 
 # Packages which are pre-installed
-INSTALLED_PACKAGES="ca_root_nss virtualbox-ose-additions bash sudo ezjail"
+INSTALLED_PACKAGES="ca_root_nss virtualbox-ose-additions bash sudo"
 
 # Configuration files
-MAKE_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/etc/make.conf"
-RC_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/etc/rc.conf"
-RESOLV_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/etc/resolv.conf"
-LOADER_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/boot/loader.conf"
-EZJAIL_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/usr/local/etc/ezjail.conf"
-PF_CONF="https://raw.github.com/wunki/vagrant-freebsd/master/etc/pf.conf"
+RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
+MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/make.conf"
+RC_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/rc.conf"
+RESOLV_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/resolv.conf"
+LOADER_CONF="$RAW_GITHUB/vagrant-freebsd/master/boot/loader.conf"
+EZJAIL_CONF="$RAW_GITHUB/vagrant-freebsd/master/usr/local/etc/ezjail.conf"
+PF_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/pf.conf"
 
 # Message of the day
-MOTD="https://raw.github.com/wunki/vagrant-freebsd/master/etc/motd"
+MOTD="$RAW_GITHUB/vagrant-freebsd/master/etc/motd"
 
 # Private key of Vagrant (you probable don't want to change this)
 VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub"
@@ -24,36 +25,34 @@ VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagran
 # PACKAGE INSTALLATION
 ################################################################################
 
-# Use my own package repository to keep the size as small as possible.
-mkdir -p /usr/local/etc/pkg/repos
-touch /usr/local/etc/pkg/repos/wunki.conf
-cat <<EOT >> /usr/local/etc/pkg/repos/wunki.conf
-wunki: {
-  url: "http://pkg.wunki.org/10_1-amd64-server-default",
-  enabled: yes
-}
-EOT
-
-# Setup pkgng
-cp /usr/local/etc/pkg.conf.sample /usr/local/etc/pkg.conf
-pkg update
-pkg upgrade -y
-
 # Install required packages
 for p in $INSTALLED_PACKAGES; do
     pkg install -y -r wunki "$p"
 done
 
-# Remove the wunki repository
-rm /usr/local/etc/pkg/repos/wunki.conf
+# Switch to QI repository
+mkdir -p /usr/local/etc/pkg/repos
+touch /usr/local/etc/pkg/repos/local.conf
+cat <<EOT > /usr/local/etc/pkg/repos/local.conf
+FreeBSD: { enabled: no }
+local {
+        url: https://pkg.dev.quinn.com/packages/${ABI}-default,
+        signature_type: "pubkey",
+        mirror_type: "http",
+        pubkey: "/usr/local/etc/ssl/certs/poudriere.cert",
+        enabled: yes
+}
+EOT
+
 pkg update
+pkg upgrade -y
 
 ################################################################################
 # Configuration
 ################################################################################
 
-# Create the vagrant user
-pw useradd -n vagrant -s /usr/local/bin/bash -m -G wheel -h 0 <<EOP
+# Create the vagrant user with password "vagrant"
+pw useradd -n vagrant -d /usr/home/vagrant -s /usr/local/bin/bash -m -G wheel -h 0 <<EOP
 vagrant
 EOP
 
@@ -61,13 +60,13 @@ EOP
 echo "%vagrant ALL=(ALL) NOPASSWD: ALL" >> /usr/local/etc/sudoers
 
 # Authorize vagrant to login without a key
-mkdir /home/vagrant/.ssh
-touch /home/vagrant/.ssh/authorized_keys
-chown vagrant:vagrant /home/vagrant/.ssh
+mkdir /usr/home/vagrant/.ssh
+touch /usr/home/vagrant/.ssh/authorized_keys
+chown vagrant:vagrant /usr/home/vagrant/.ssh
 
 # Get the public key and save it in the `authorized_keys`
-fetch -o /home/vagrant/.ssh/authorized_keys $VAGRANT_PRIVATE_KEY
-chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+fetch -o /usr/home/vagrant/.ssh/authorized_keys $VAGRANT_PRIVATE_KEY
+chown vagrant:vagrant /usr/home/vagrant/.ssh/authorized_keys
 
 # make.conf
 fetch -o /etc/make.conf $MAKE_CONF
