@@ -8,15 +8,15 @@ INSTALLED_PACKAGES="ca_root_nss virtualbox-ose-additions bash sudo"
 
 # Configuration files
 RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
-MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/make.conf"
-RC_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/rc.conf"
-RESOLV_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/resolv.conf"
-LOADER_CONF="$RAW_GITHUB/vagrant-freebsd/master/boot/loader.conf"
-EZJAIL_CONF="$RAW_GITHUB/vagrant-freebsd/master/usr/local/etc/ezjail.conf"
-PF_CONF="$RAW_GITHUB/vagrant-freebsd/master/etc/pf.conf"
+MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/make.conf"
+RC_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/rc.conf"
+RESOLV_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/resolv.conf"
+LOADER_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/boot/loader.conf"
+EZJAIL_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/usr/local/etc/ezjail.conf"
+PF_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/pf.conf"
 
 # Message of the day
-MOTD="$RAW_GITHUB/vagrant-freebsd/master/etc/motd"
+MOTD="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/motd"
 
 # Private key of Vagrant (you probable don't want to change this)
 VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub"
