@@ -27,7 +27,7 @@ VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagran
 
 # Install required packages
 for p in $INSTALLED_PACKAGES; do
-    pkg install -y -r wunki "$p"
+    pkg install -y "$p"
 done
 
 # Switch to QI repository
