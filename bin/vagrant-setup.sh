@@ -12,8 +12,6 @@ MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/make.conf"
 RC_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/rc.conf"
 RESOLV_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/resolv.conf"
 LOADER_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/boot/loader.conf"
-EZJAIL_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/usr/local/etc/ezjail.conf"
-PF_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/pf.conf"
 
 # Message of the day
 MOTD="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/motd"
@@ -100,12 +98,6 @@ fetch -o /boot/loader.conf $LOADER_CONF
 
 # motd
 fetch -o /etc/motd $MOTD
-
-# ezjail
-fetch -o /usr/local/etc/ezjail.conf $EZJAIL_CONF
-
-# pf
-fetch -o /usr/local/etc/pf.conf $PF_CONF
 
 
 ################################################################################
