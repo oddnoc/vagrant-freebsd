@@ -28,41 +28,6 @@ for p in $INSTALLED_PACKAGES; do
     pkg install -y "$p"
 done
 
-# Switch to QI repository
-mkdir -p -m 755 /usr/local/etc/pkg/repos
-touch /usr/local/etc/pkg/repos/local.conf
-cat <<EOT > /usr/local/etc/pkg/repos/local.conf
-FreeBSD: { enabled: no }
-local {
-        url: https://pkg.dev.quinn.com/packages/\${ABI}-default,
-        signature_type: "pubkey",
-        mirror_type: "http",
-        pubkey: "/usr/local/etc/ssl/certs/poudriere.cert",
-        enabled: yes
-}
-EOT
-mkdir -p -m 755 /usr/local/etc/ssl/certs
-touch /usr/local/etc/ssl/certs/poudriere.cert
-cat<<EOC > /usr/local/etc/ssl/certs/poudriere.cert
------BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqU9kxnGdvUjVMiXZcGt6
-pq/yylQ60rf7cJNxHx7qSkxkJCESDm7yMeAwaEgvPJiU6t2OtMg+fwAV4Xl2ZdwZ
-9k2SqpE/cHBTwI9rZGjVR9KICLtczVRM4NUjjHt1flOxOmuatVc4FJA1FwmuYQ9G
-U29eAS8G0PIQ//cFsVwCiSZT231CH4oRCdt7wfNo0W31LBsXw+Ta+SBXJG7OgLCo
-nOGAvfBnpk5G6WWy60/98g8baZBZo20WA+7MZjFprXjULnmHYy07I6WE+NR3tcL7
-m1mTWE/ZwPwU8UetIVX8UEQgwwYISyFoEzOPeRLx/Rgp1seki6/+tMvXxX2l8ss0
-s6keUg96RW8miftJd72i7Oh28UYIXOFxRikvZHHU+B8kjW/VZUcx6/LSRl/jrv4u
-uztuq755dDvdTkbzuD2WsEwTS681n2o1uED//HUdC4JZ7/aE8CEwuPwu/gGrK9rO
-nKQHlIqut+/R3gG4eyajpce9G90QY1dKHJJVpefkGeZGQlrl2wmBsnuKzQkKqDeM
-cgzOreGTzTYMW8qCzRKNfeiJTU3WhnqjD+1ZyWEdqblF9UjsaD4YCh5+GCUO+wVb
-XGZGVyVynHR+ed1sXlYJtRIs5ZSLH6v96x376zBjM8DAgdu0aFYRsuDi1SYGHLpP
-EosDQwKdcAwJ0wQo4SSx7zECAwEAAQ==
------END PUBLIC KEY-----
-EOC
-
-pkg update
-pkg upgrade -y
-
 ################################################################################
 # Configuration
 ################################################################################
