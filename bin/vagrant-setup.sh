@@ -3,9 +3,6 @@
 # CONFIG
 ################################################################################
 
-# Packages which are pre-installed
-INSTALLED_PACKAGES="virtualbox-ose-additions bash sudo"
-
 # Configuration files
 RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
 MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/make.conf"
@@ -18,15 +15,6 @@ MOTD="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/motd"
 
 # Private key of Vagrant (you probable don't want to change this)
 VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub"
-
-################################################################################
-# PACKAGE INSTALLATION
-################################################################################
-
-# Install required packages
-for p in $INSTALLED_PACKAGES; do
-    pkg install -y "$p"
-done
 
 ################################################################################
 # Configuration
@@ -64,13 +52,9 @@ fetch -o /boot/loader.conf $LOADER_CONF
 # motd
 fetch -o /etc/motd $MOTD
 
-
 ################################################################################
 # CLEANUP
 ################################################################################
-
-# Clean up installed packages
-pkg clean -a -y
 
 # Remove the history
 cat /dev/null > /root/.history
