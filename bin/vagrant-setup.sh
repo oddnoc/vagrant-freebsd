@@ -3,6 +3,9 @@
 # CONFIG
 ################################################################################
 
+# Packages which are pre-installed (minimal to reduce box size)
+INSTALLED_PACKAGES="sudo"
+
 # Configuration files
 RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
 MAKE_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/make.conf"
@@ -13,15 +16,24 @@ LOADER_CONF="$RAW_GITHUB/vagrant-freebsd/qi-ss/boot/loader.conf"
 # Message of the day
 MOTD="$RAW_GITHUB/vagrant-freebsd/qi-ss/etc/motd"
 
-# Private key of Vagrant (you probable don't want to change this)
+# Private key of Vagrant (you probably don't want to change this)
 VAGRANT_PRIVATE_KEY="https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub"
+
+################################################################################
+# PACKAGE INSTALLATION
+################################################################################
+
+# Install required packages
+for p in $INSTALLED_PACKAGES; do
+    pkg install -y "$p"
+done
 
 ################################################################################
 # Configuration
 ################################################################################
 
-# Create the vagrant user with password "vagrant"
-pw useradd -n vagrant -d /usr/home/vagrant -s /usr/local/bin/bash -m -G wheel -h 0 <<EOP
+# Create the vagrant user with password "vagrant"; defer setting up bash to provisioning
+pw useradd -n vagrant -d /usr/home/vagrant -s /bin/sh -m -G wheel -h 0 <<EOP
 vagrant
 EOP
 
