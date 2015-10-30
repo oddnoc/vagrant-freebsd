@@ -4,7 +4,7 @@
 ################################################################################
 
 # Packages which are pre-installed (minimal to reduce box size)
-INSTALLED_PACKAGES="sudo"
+INSTALLED_PACKAGES="sudo ca_root_nss"
 
 # Configuration files
 RAW_GITHUB="https://raw.githubusercontent.com/oddnoc"
@@ -67,6 +67,9 @@ fetch -o /etc/motd $MOTD
 ################################################################################
 # CLEANUP
 ################################################################################
+
+# Clean up installed packages
+pkg clean -a -y
 
 # Remove the history
 cat /dev/null > /root/.history
